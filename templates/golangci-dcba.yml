@@ -1,0 +1,45 @@
+# DCBA layering enforcement — merge into your .golangci.yml under
+# `linters.settings.depguard.rules` (golangci-lint v2), and enable `depguard`
+# under `linters.enable`.
+#
+# Replace MODULE with your Go module path, e.g. gitlab.com/acme/foo — every deny
+# below must reference the full import path of the layer package.
+#
+# The rule: dependencies point inward, A -> {C, D} -> B. Each inner layer is
+# forbidden from importing the layers allowed to depend on it. Application (A) is
+# the composition root and is intentionally unrestricted (no rule for it).
+# See https://github.com/amberpixels/dcba for the full spec.
+
+# B (business) is the dependency sink: pure domain, imports no sibling layer.
+# (Other business/* packages are fine and not denied here.)
+dcba-business:
+  files:
+    - "**/internal/business/**"
+  deny:
+    - pkg: MODULE/internal/application
+      desc: "DCBA: business (B) must not import application (A)"
+    - pkg: MODULE/internal/components
+      desc: "DCBA: business (B) must not import components (C)"
+    - pkg: MODULE/internal/dtos
+      desc: "DCBA: business (B) must not import dtos (D)"
+
+# D (dtos) maps domain -> wire shapes: may import business (B) only.
+dcba-dtos:
+  files:
+    - "**/internal/dtos/**"
+  deny:
+    - pkg: MODULE/internal/application
+      desc: "DCBA: dtos (D) must not import application (A)"
+    - pkg: MODULE/internal/components
+      desc: "DCBA: dtos (D) must not import components (C)"
+
+# C (components) is infrastructure: may import business (B) only, never the
+# application layer or the wire shapes.
+dcba-components:
+  files:
+    - "**/internal/components/**"
+  deny:
+    - pkg: MODULE/internal/application
+      desc: "DCBA: components (C) must not import application (A)"
+    - pkg: MODULE/internal/dtos
+      desc: "DCBA: components (C) must not import dtos (D)"

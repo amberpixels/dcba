@@ -1,0 +1,18 @@
+// Package internal follows the DCBA layering. The canonical spec (the four
+// layers, the dependency rule, and the rationale) lives at:
+//
+//	https://github.com/amberpixels/dcba
+//
+// This file records only THIS module's specifics: the layer -> package mapping
+// and any deliberate deviations. The dependency direction is enforced by the
+// depguard "dcba-*" rules in .golangci.yml.
+//
+//	D  dtos/         wire shapes (request/response DTOs)
+//	C  components/   infrastructure (db, auth, external clients, storage, caches)
+//	B  business/     the domain; the dependency sink (imports no sibling layer)
+//	A  application/  composition root + transport + use cases (may import anything)
+//
+// Dependencies point inward: A -> {C, D} -> B; B -> nothing. Adjust the notes
+// above to match this project (e.g. where shared service interfaces live), but
+// keep the direction intact.
+package internal
