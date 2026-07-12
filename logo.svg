@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 272 124" width="272" height="124" xml:space="preserve">
+  <style>
+    text { font-family: 'Menlo','Consolas','DejaVu Sans Mono',monospace; font-size: 26px; font-weight: 700; white-space: pre; }
+  </style>
+  <rect width="272" height="124" fill="transparent"/>
+  <!-- D -->
+  <text x="6" y="26" fill="#FBBF24">░█▀▄</text>
+  <text x="6" y="48" fill="#FBBF24">░█░█</text>
+  <text x="6" y="70" fill="#FBBF24">░▀▀░</text>
+  <!-- C (dropped) -->
+  <text x="72" y="40" fill="#F59E0B">░█▀▀</text>
+  <text x="72" y="62" fill="#F59E0B">░█░░</text>
+  <text x="72" y="84" fill="#F59E0B">░▀▀▀</text>
+  <!-- B (dropped) -->
+  <text x="138" y="54" fill="#F97316">░█▀▄</text>
+  <text x="138" y="76" fill="#F97316">░█▀▄</text>
+  <text x="138" y="98" fill="#F97316">░▀▀░</text>
+  <!-- A (dropped) -->
+  <text x="204" y="68" fill="#EA580C">░█▀█</text>
+  <text x="204" y="90" fill="#EA580C">░█▀█</text>
+  <text x="204" y="112" fill="#EA580C">░▀░▀</text>
+</svg>

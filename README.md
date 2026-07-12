@@ -1,8 +1,21 @@
-# DCBA
+<p align="center">
+  <img src="logo.svg" alt="DCBA" width="300">
+</p>
 
-A small, enforceable layering convention for Go applications. This repo is the
-**canonical spec** — reference it from a project's `internal/doc.go` instead of
-copying the whole explanation into every codebase.
+<div align="center">
+
+### Four layers. One dependency rule. Enforced.
+
+A small, lint-enforced layering convention for Go applications.
+
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
+
+</div>
+
+---
+
+This repo is the **canonical spec** — reference it from a project's
+`internal/doc.go` instead of copying the whole explanation into every codebase.
 
 DCBA splits an application's `internal/` tree into four sibling layers and fixes
 the **direction** dependencies may point. It's the same idea as Hexagonal /
