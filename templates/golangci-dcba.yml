@@ -1,8 +1,8 @@
-# DCBA layering enforcement — merge into your .golangci.yml under
+# DCBA layering enforcement - merge into your .golangci.yml under
 # `linters.settings.depguard.rules` (golangci-lint v2), and enable `depguard`
 # under `linters.enable`.
 #
-# Replace MODULE with your Go module path, e.g. github.com/acme/foo — every deny
+# Replace MODULE with your Go module path, e.g. github.com/acme/foo - every deny
 # below must reference the full import path of the layer package.
 #
 # The rule: dependencies point inward, A -> {C, D} -> B. Each inner layer is

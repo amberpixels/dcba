@@ -14,7 +14,7 @@ A small, lint-enforced layering convention for Go applications.
 
 ---
 
-This repo is the **canonical spec** — reference it from a project's
+This repo is the **canonical spec** - reference it from a project's
 `internal/doc.go` instead of copying the whole explanation into every codebase.
 
 DCBA splits an application's `internal/` tree into four sibling layers and fixes
@@ -26,15 +26,15 @@ enforce with a linter.
 
 | | Layer | What lives here |
 |---|---|---|
-| **D** | `dtos/` | wire shapes — request/response DTOs; maps domain ⇄ JSON (or protobuf, etc.) |
-| **C** | `components/` | infrastructure — db, auth, external API clients, caches, storage |
-| **B** | `business/` | the domain — entities and domain rules. The dependency **sink**. |
+| **D** | `dtos/` | wire shapes - request/response DTOs; maps domain ⇄ JSON (or protobuf, etc.) |
+| **C** | `components/` | infrastructure - db, auth, external API clients, caches, storage |
+| **B** | `business/` | the domain - entities and domain rules. The dependency **sink**. |
 | **A** | `application/` | composition root + transport (handlers/routing) + use cases (services) |
 
 ### Why "DCBA" (reverse-alphabetical)?
 
 The letters are deliberately **not** in top-to-bottom order. Alphabetical "ABCD"
-reads like a stack where A is the foundation — but here **A is the outermost
+reads like a stack where A is the foundation - but here **A is the outermost
 layer, not the base**. Naming them D-C-B-A stops that wrong mental picture. The
 label is just a mnemonic for the four directories; the real contract is the
 dependency rule.
@@ -56,7 +56,7 @@ references `activist`). That intra-domain graph must stay **acyclic**.
 ### Consequences worth remembering
 
 - **Business never imports dtos, components, or application.** If a domain type
-  needs a wire shape, the DTO depends on the domain — not the reverse.
+  needs a wire shape, the DTO depends on the domain - not the reverse.
 - **Components is infrastructure only:** it knows domain types, but not wire
   shapes (no `dtos`) and not the application layer.
 - **Application is the composition root.** It's the only layer allowed to depend
@@ -84,11 +84,11 @@ linter.
 
 ## Roadmap
 
-- **`dcbacheck` — a custom `go/analysis` linter.** A single, configurable
+- **`dcbacheck` - a custom `go/analysis` linter.** A single, configurable
   analyzer (usable as a golangci-lint plugin/module) that enforces the layering
   from a tiny per-project config (which package = which layer), so projects stop
   copying the depguard block. Tracked as an issue in this repo.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT - see [LICENSE](LICENSE).
