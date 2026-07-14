@@ -14,13 +14,13 @@ A small, lint-enforced layering convention for Go applications.
 
 ---
 
-This repo is the **canonical spec** - reference it from a project's
-`internal/doc.go` instead of copying the whole explanation into every codebase.
-
 DCBA splits an application's `internal/` tree into four sibling layers and fixes
-the **direction** dependencies may point. It's the same idea as Hexagonal /
-Clean / Onion architecture, boiled down to four directories and one rule you can
-enforce with a linter.
+the **direction** dependencies may point. Same idea as Hexagonal / Clean / Onion
+architecture, boiled down to four directories and one rule you can enforce with a
+linter.
+
+This repo is the **canonical spec**: reference it from a project's
+`internal/doc.go` instead of copying the whole explanation into every codebase.
 
 ## The four layers
 
@@ -89,6 +89,11 @@ linter.
   from a tiny per-project config (which package = which layer), so projects stop
   copying the depguard block. Tracked as an issue in this repo.
 
+## Feedback
+
+DCBA is a solo, opinionated project - but if you stumbled upon it and have ideas,
+questions, or bug reports, an [issue](https://github.com/amberpixels/dcba/issues) is always welcome :)
+
 ## License
 
-MIT - see [LICENSE](LICENSE).
+[MIT](LICENSE) © [amberpixels](https://amberpixels.io)
