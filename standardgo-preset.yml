@@ -1,0 +1,59 @@
+# DCBA layering enforcement, as depguard rules.
+# Spec: https://github.com/amberpixels/dcba
+#
+# The rule: dependencies point inward, A -> {C, D} -> B. Each inner layer is
+# forbidden from importing the layers allowed to depend on it, so an inverted
+# dependency fails the lint instead of quietly compiling. Application (A) is the
+# composition root and is intentionally unrestricted, hence no rule for it.
+#
+# ${MODULE} stands for the module path of the project this is applied to.
+#
+# standardgo users get this by reference, with ${MODULE} filled in from go.mod:
+#
+#   # .standardgo.yml
+#   presets:
+#     - github.com/amberpixels/dcba
+#
+# Everyone else can paste the `linters:` block below into .golangci.yml and
+# replace ${MODULE} by hand.
+
+linters:
+  enable:
+    - depguard
+
+  settings:
+    depguard:
+      rules:
+        # B (business) is the dependency sink: pure domain, imports no sibling
+        # layer. Other business/* packages are fine and not denied here.
+        dcba-business:
+          files:
+            - "**/internal/business/**"
+          deny:
+            - pkg: ${MODULE}/internal/application
+              desc: "DCBA: business (B) must not import application (A)"
+            - pkg: ${MODULE}/internal/components
+              desc: "DCBA: business (B) must not import components (C)"
+            - pkg: ${MODULE}/internal/dtos
+              desc: "DCBA: business (B) must not import dtos (D)"
+
+        # D (dtos) maps domain -> wire shapes: may import business (B) only.
+        dcba-dtos:
+          files:
+            - "**/internal/dtos/**"
+          deny:
+            - pkg: ${MODULE}/internal/application
+              desc: "DCBA: dtos (D) must not import application (A)"
+            - pkg: ${MODULE}/internal/components
+              desc: "DCBA: dtos (D) must not import components (C)"
+
+        # C (components) is infrastructure: may import business (B) only, never
+        # the application layer or the wire shapes.
+        dcba-components:
+          files:
+            - "**/internal/components/**"
+          deny:
+            - pkg: ${MODULE}/internal/application
+              desc: "DCBA: components (C) must not import application (A)"
+            - pkg: ${MODULE}/internal/dtos
+              desc: "DCBA: components (C) must not import dtos (D)"

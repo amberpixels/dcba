@@ -71,16 +71,34 @@ references `activist`). That intra-domain graph must stay **acyclic**.
 
 2. **Drop in a short package doc** so the layout is documented at the source.
    Copy [`templates/doc.go.tmpl`](templates/doc.go.tmpl) to `internal/doc.go` and
-   fill in the project's specifics (it links back here for the full spec).
+   fill in the project's specifics (it links back here for the full spec). The
+   blank import in it is what makes this repo a real, pinned dependency of yours
+   rather than a link in a comment.
 
-3. **Enforce it mechanically.** Merge the depguard rules from
-   [`templates/golangci-dcba.yml`](templates/golangci-dcba.yml) into your
-   `.golangci.yml` and replace `MODULE` with your module path. An inverted import
-   then fails `golangci-lint` instead of silently rotting the architecture.
+3. **Enforce it mechanically.** An inverted import should fail the linter instead
+   of silently rotting the architecture.
 
-The rule is enforced by **depguard** today (config, copied per project). See the
-[roadmap](#roadmap) for the plan to replace the copy-paste with a dedicated
-linter.
+   With [standardgo](https://github.com/amberpixels/standardgo), reference it:
+
+   ```yaml
+   # .standardgo.yml
+   presets:
+     - github.com/amberpixels/dcba
+   ```
+
+   ```sh
+   go get github.com/amberpixels/dcba
+   ```
+
+   The rules come from [`standardgo-preset.yml`](standardgo-preset.yml) in this
+   module, at the version your `go.mod` pins, with `${MODULE}` filled in from it.
+   Nothing is copied, so a fix here reaches your project as a version bump.
+
+   Without standardgo, paste the `linters:` block from that same file into your
+   `.golangci.yml` and replace `${MODULE}` by hand.
+
+The rule is enforced by **depguard** today. See the [roadmap](#roadmap) for the
+plan to replace the config with a dedicated linter.
 
 ## Roadmap
 

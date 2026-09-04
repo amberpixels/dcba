@@ -5,7 +5,7 @@
 //
 // This file records only THIS module's specifics: the layer -> package mapping
 // and any deliberate deviations. The dependency direction is enforced by the
-// depguard "dcba-*" rules in .golangci.yml.
+// depguard "dcba-*" rules the spec module publishes.
 //
 //	D  dtos/         wire shapes (request/response DTOs)
 //	C  components/   infrastructure (db, auth, external clients, storage, caches)
@@ -16,3 +16,7 @@
 // above to match this project (e.g. where shared service interfaces live), but
 // keep the direction intact.
 package internal
+
+// The spec is a dependency, not a link: the import pins it in go.mod, and it is
+// what lets the linter pull the layering rules from the version pinned there.
+import _ "github.com/amberpixels/dcba"
